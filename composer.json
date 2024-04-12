@@ -1,0 +1,31 @@
+{
+    "name": "webcoast/user-manual",
+    "title": "User manual",
+    "description": "TYPO3 extension for rendering a user manual in the backend",
+    "keywords": ["typo3", "cms", "documentation", "render", "manual", "usermanual"],
+    "type": "typo3-cms-extension",
+    "minimum-stability": "dev",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Thorben Nissen",
+            "email": "thorben@webcoast.dk"
+        }
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        },
+        "typo3/cms": {
+            "extension-key": "user_manual"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "WEBcoast\\UserManual\\": "Classes"
+        }
+    },
+    "require": {
+        "typo3/cms-core": "^12.4"
+    }
+}
