@@ -26,6 +26,11 @@
         }
     },
     "require": {
+        "phpdocumentor/guides": "^1.2",
+        "phpdocumentor/guides-restructured-text": "^1.2",
+        "phpdocumentor/guides-graphs": "^1.2",
+        "t3docs/typo3-docs-theme": "^0.2",
+        "t3docs/typo3-guides-extension": "^0.2",
         "typo3/cms-core": "^12.4"
     }
 }
