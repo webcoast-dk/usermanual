@@ -6,3 +6,4 @@ services:
       
    WEBcoast\UserManual\:
       resource: '../Classes/*'
+      exclude: ['DependencyInjection']

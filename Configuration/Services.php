@@ -2,20 +2,34 @@
 
 declare(strict_types=1);
 
-use phpDocumentor\Guides\NodeRenderers\DelegatingNodeRenderer;
-use phpDocumentor\Guides\NodeRenderers\InMemoryNodeRendererFactory;
-use phpDocumentor\Guides\NodeRenderers\TemplateNodeRenderer;
+use phpDocumentor\Guides\DependencyInjection\GuidesExtension;
+use phpDocumentor\Guides\RestructuredText\DependencyInjection\ReStructuredTextExtension;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Reference;
+use T3Docs\GuidesExtension\DependencyInjection\Typo3GuidesExtension;
 use TYPO3\CMS\Core\Core\Environment;
 
-return static function (ContainerConfigurator $container): void {
-    $container->parameters()->set('vendor_dir', Environment::getProjectPath() . '/vendor');
+
+return static function (ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void {
+    $containerConfigurator->parameters()->set('vendor_dir', Environment::getProjectPath() . '/vendor');
+//    $containerConfigurator->parameters()->set('phpdoc.rst.code_language_labels', []);
+    $containerBuilder->prependExtensionConfig('re_structured_text', []);
+    $containerBuilder->registerExtension(new GuidesExtension());
+    $containerBuilder->registerExtension(new ReStructuredTextExtension());
+    $containerBuilder->registerExtension(new Typo3GuidesExtension());
+//    $containerBuilder->addCompilerPass(new ParserRulesPass());
+//    $containerBuilder->addCompilerPass(new NodeRendererPass());
+//    $containerBuilder->addCompilerPass(new RendererPass());
+    $containerBuilder->addCompilerPass(new \WEBcoast\UserManual\DependencyInjection\CleanupPass());
+
 //    ->set('guides.graphs.plantuml_binary', null)
 //    ->set('guides.graphs.plantuml_server', null)
 //    ->set('guides.graphs.renderer', null);
-    $container->import(Environment::getProjectPath() . '/vendor/phpdocumentor/guides/resources/config/*.php');
-    $container->import(Environment::getProjectPath() . '/vendor/phpdocumentor/guides-restructured-text/resources/config/*.php');
+    $containerConfigurator->services()
+        ->set(LoggerInterface::class);
+//    $containerConfigurator->import(Environment::getProjectPath() . '/vendor/phpdocumentor/guides/resources/config/*.php');
+//    $containerConfigurator->import(Environment::getProjectPath() . '/vendor/phpdocumentor/guides-restructured-text/resources/config/*.php');
 //    $container->services()
 //        ->set(InMemoryNodeRendererFactory::class)
 //        ->set(DelegatingNodeRenderer::class)
